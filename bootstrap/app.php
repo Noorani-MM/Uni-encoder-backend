@@ -14,6 +14,7 @@ function error(string $message = '', array|object $errors = [], int $status = 50
         'success' => false,
     ], $status);
 }
+
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
@@ -26,10 +27,20 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(function (Exception $e, \Illuminate\Http\Request $request) {
+            // Check if request is api
            if ($request->is('api/*')) {
+               // Check if model not found
+               if ($e instanceof \Illuminate\Database\Eloquent\ModelNotFoundException) {
+                   return error($e->getMessage(), [
+                       'model' => $e->getModel(),
+                       'ids' => $e->getIds(),
+                   ], 404);
+               }
+               // Check if exception is Global HttpException
                if ($e instanceof \Symfony\Component\HttpKernel\Exception\HttpException) {
                    return error($e->getMessage(), status: $e->getStatusCode());
                }
+               // Global exception configuration
                return error($e->getMessage());
            }
         });
