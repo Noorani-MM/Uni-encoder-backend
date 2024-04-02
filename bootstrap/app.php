@@ -25,5 +25,12 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions->render(function (Exception $e, \Illuminate\Http\Request $request) {
+           if ($request->is('api/*')) {
+               if ($e instanceof \Symfony\Component\HttpKernel\Exception\HttpException) {
+                   return error($e->getMessage(), status: $e->getStatusCode());
+               }
+               return error($e->getMessage());
+           }
+        });
     })->create();
