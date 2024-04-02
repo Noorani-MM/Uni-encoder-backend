@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\ForceJSON;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -23,7 +24,8 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        // Force to use `accept`: `application/json` in api header requests.
+        $middleware->appendToGroup('api', [ForceJSON::class]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(function (Exception $e, \Illuminate\Http\Request $request) {
