@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('app', ['message' => '', 'result' => '', 'success' => true]);
+    return view('app');
 });
 
 Route::post('/', [\App\Http\Controllers\CryptoHandlerController::class, 'handle'])

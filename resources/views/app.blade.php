@@ -29,7 +29,7 @@
         <div class="absolute top-0 left-0 bg-black/80 w-full h-full "></div>
         <div class="flex flex-col gap-3 z-30">
             <h1 class="font-extrabold text-2xl text-center">Encryption & Decryption</h1>
-            <span class="text-xs font-medium {{$success ? 'text-lime-500' : 'text-red-500'}}">{{ $message }}</span>
+            <span class="text-xs font-medium {{$success ?? true ? 'text-lime-500' : 'text-red-500'}}">{{ $message ?? '' }}</span>
             <!-- input content -->
             <div class="flex flex-col gap-1">
                 <label for="form-content"
@@ -40,7 +40,7 @@
             <!-- output content -->
             <div class="flex flex-col gap-1">
                 <label for="form-content" class="font-semibold">Result</label>
-                <p class="border p-2 w-full break-words">{{ $result }}</p>
+                <p class="border p-2 w-full break-words">{{ $result ?? '' }}</p>
             </div>
             <!-- buttons -->
             <div class="flex items-center gap-2 justify-between font-semibold">
